@@ -971,15 +971,11 @@ static NSString *RestorablePostObjectIDURLKey = @"RestorablePostObjectIDURLKey";
 - (void)didExpandTextView
 {
     self.commentsViewIsExpanded = true;
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 - (void)didCollapseTextView
 {
     self.commentsViewIsExpanded = false;
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 }
 
 - (void)sendReplyWith:(NSString * _Nonnull)content {
@@ -990,7 +986,7 @@ static NSString *RestorablePostObjectIDURLKey = @"RestorablePostObjectIDURLKey";
 
 - (void)suggestionsTableView:(SuggestionsTableView *)suggestionsTableView didSelectSuggestion:(NSString *)suggestion forSearchText:(NSString *)text
 {
-//    [self.replyTextView replaceTextAtCaret:text withText:suggestion];
+    [self.accessoryView replaceTextAtCaret:text withText:suggestion];
     [suggestionsTableView showSuggestionsForWord:@""];
     self.tapOffKeyboardGesture.enabled = YES;
 }

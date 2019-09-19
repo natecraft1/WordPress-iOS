@@ -1179,8 +1179,8 @@ open class ReaderDetailViewController: UIViewController, UIViewControllerRestora
         if !isLoaded {
             return
         }
-
-        let controller = ReaderCommentsViewController(post: post)
+        
+        let controller = EnhancedCommentingReaderCommentsViewController(post: post)
         navigationController?.pushViewController(controller!, animated: true)
     }
 

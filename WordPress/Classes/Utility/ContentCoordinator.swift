@@ -45,8 +45,8 @@ struct DefaultContentCoordinator: ContentCoordinator {
         guard let postID = postID, let siteID = siteID else {
             throw DisplayError.missingParameter
         }
-
-        let commentsViewController = ReaderCommentsViewController(postID: postID, siteID: siteID)
+        
+        let commentsViewController = EnhancedCommentingReaderCommentsViewController(postID: postID, siteID: siteID)
         commentsViewController?.allowsPushingPostDetails = true
         controller?.navigationController?.pushViewController(commentsViewController!, animated: true)
     }
