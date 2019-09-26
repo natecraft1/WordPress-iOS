@@ -506,8 +506,7 @@ static NSString *RestorablePostObjectIDURLKey = @"RestorablePostObjectIDURLKey";
 
 - (BOOL)shouldDisplaySuggestionsTableView
 {
-    return true;
-//    return self.shouldDisplayReplyTextView && [[SuggestionService sharedInstance] shouldShowSuggestionsForSiteID:self.post.siteID];
+    return self.shouldDisplayReplyTextView && [[SuggestionService sharedInstance] shouldShowSuggestionsForSiteID:self.post.siteID];
 }
 
 
@@ -555,9 +554,9 @@ static NSString *RestorablePostObjectIDURLKey = @"RestorablePostObjectIDURLKey";
 - (void)refreshCommentViewPlaceholder
 {
     if (self.tableView.indexPathForSelectedRow) {
-        [self.accessoryView updatePlaceholderWithText:@"Reply to comment"];
+        [self.accessoryView updatePlaceholderWithText: NSLocalizedString(@"Reply to comment", @"Placeholder text for replying to a comment")];
     } else {
-        [self.accessoryView updatePlaceholderWithText:@"Reply to post"];
+        [self.accessoryView updatePlaceholderWithText: NSLocalizedString(@"Reply to post", @"Placeholder text for replying to a post")];
     }
 }
 
@@ -1138,11 +1137,11 @@ static NSString *RestorablePostObjectIDURLKey = @"RestorablePostObjectIDURLKey";
     return YES;
 }
 
-//- (void)textView:(UITextView *)textView didTypeWord:(NSString *)word
-//{
-//    // Disable the gestures recognizer when showing suggestions
-//    BOOL showsSuggestions = [self.suggestionsTableView showSuggestionsForWord:word];
-//    self.tapOffKeyboardGesture.enabled = !showsSuggestions;
-//}
+- (void)textView:(UITextView *)textView didTypeWord:(NSString *)word
+{
+    // Disable the gestures recognizer when showing suggestions
+    BOOL showsSuggestions = [self.suggestionsTableView showSuggestionsForWord:word];
+    self.tapOffKeyboardGesture.enabled = !showsSuggestions;
+}
 
 @end

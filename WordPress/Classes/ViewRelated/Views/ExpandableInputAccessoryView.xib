@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -70,22 +68,22 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="mvj-xP-Obp" secondAttribute="bottom" constant="19" id="1o7-Qt-EsA"/>
+                <constraint firstItem="Kom-M1-ozf" firstAttribute="bottom" secondItem="mvj-xP-Obp" secondAttribute="bottom" constant="19" id="1o7-Qt-EsA"/>
                 <constraint firstItem="z6P-QG-lRU" firstAttribute="centerY" secondItem="mvj-xP-Obp" secondAttribute="centerY" id="2u0-la-J2m"/>
                 <constraint firstAttribute="trailing" secondItem="UIn-74-tKQ" secondAttribute="trailing" id="B5X-tR-BtW"/>
                 <constraint firstItem="UIn-74-tKQ" firstAttribute="top" secondItem="Aw3-5A-8B3" secondAttribute="top" id="EAz-jm-34t"/>
-                <constraint firstAttribute="trailing" secondItem="vkS-sS-MKg" secondAttribute="trailing" constant="12" id="FxP-Ee-OlV"/>
+                <constraint firstItem="Kom-M1-ozf" firstAttribute="trailing" secondItem="vkS-sS-MKg" secondAttribute="trailing" constant="12" id="FxP-Ee-OlV"/>
                 <constraint firstItem="z6P-QG-lRU" firstAttribute="centerX" secondItem="Kom-M1-ozf" secondAttribute="centerX" id="KGE-jJ-s28"/>
                 <constraint firstItem="wAM-wr-uzv" firstAttribute="top" secondItem="Aw3-5A-8B3" secondAttribute="top" constant="6" id="M0b-Go-7VP"/>
-                <constraint firstItem="wAM-wr-uzv" firstAttribute="leading" secondItem="Aw3-5A-8B3" secondAttribute="leading" constant="45" id="Tbx-3b-KVU"/>
+                <constraint firstItem="wAM-wr-uzv" firstAttribute="leading" secondItem="Kom-M1-ozf" secondAttribute="leading" constant="45" id="Tbx-3b-KVU"/>
                 <constraint firstItem="mvj-xP-Obp" firstAttribute="top" secondItem="Aw3-5A-8B3" secondAttribute="top" constant="7" id="ajX-xn-YWC"/>
                 <constraint firstItem="UIn-74-tKQ" firstAttribute="leading" secondItem="Aw3-5A-8B3" secondAttribute="leading" id="cey-10-XUj"/>
                 <constraint firstItem="2VP-Vh-Erd" firstAttribute="top" secondItem="wAM-wr-uzv" secondAttribute="top" constant="6" id="kfJ-9x-KAO"/>
-                <constraint firstAttribute="bottom" secondItem="wAM-wr-uzv" secondAttribute="bottom" constant="22" id="nD5-9f-cc9"/>
+                <constraint firstItem="Kom-M1-ozf" firstAttribute="bottom" secondItem="wAM-wr-uzv" secondAttribute="bottom" constant="22" id="nD5-9f-cc9"/>
                 <constraint firstItem="2VP-Vh-Erd" firstAttribute="leading" secondItem="wAM-wr-uzv" secondAttribute="leading" constant="6" id="shU-HW-tWa"/>
-                <constraint firstAttribute="trailing" secondItem="wAM-wr-uzv" secondAttribute="trailing" constant="60" id="tqB-sk-iuo"/>
+                <constraint firstItem="Kom-M1-ozf" firstAttribute="trailing" secondItem="wAM-wr-uzv" secondAttribute="trailing" constant="60" id="tqB-sk-iuo"/>
                 <constraint firstItem="vkS-sS-MKg" firstAttribute="centerY" secondItem="mvj-xP-Obp" secondAttribute="centerY" id="uS9-dP-HVz"/>
-                <constraint firstItem="mvj-xP-Obp" firstAttribute="leading" secondItem="Aw3-5A-8B3" secondAttribute="leading" constant="7" id="wul-D0-NdK"/>
+                <constraint firstItem="mvj-xP-Obp" firstAttribute="leading" secondItem="Kom-M1-ozf" secondAttribute="leading" constant="7" id="wul-D0-NdK"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="Kom-M1-ozf"/>

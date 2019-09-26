@@ -26,11 +26,9 @@ import UIKit
     func didMoveTo(_ state: ExpandableInputAccessoryView.ExpandedState) {
         switch state {
         case .fullScreen:
-            if topConstraint == nil {
-                topConstraint = self.topAnchor.constraint(equalTo: self.window!.safeAreaLayoutGuide.topAnchor)
+            if let window = self.window, topConstraint == nil {
+                topConstraint = self.topAnchor.constraint(equalTo: window.safeAreaLayoutGuide.topAnchor)
             }
-//            heightConstraint = self.heightAnchor.constraint(equalToConstant: 300.0)
-//            heightConstraint?.isActive = true
             topConstraint?.isActive = true
         case .normal:
             heightConstraint?.isActive = false
@@ -118,11 +116,11 @@ class ExpandableInputAccessoryView: UIView, NibLoadable {
     }
     weak var delegate: ExpandableInputAccessoryViewDelegate?
     weak var parentDelegate: ExpandableInputAccessoryViewParentDelegate?
-    var isExpanded = false
-    var explicityCollapsed = false
-    var wasAutomatticallyExpanded = false
-    let expandedTextViewConstraints = TextViewConstraintStore(leading: 10.0, trailing: 4.0, top: 50.0)
-    var collapsedTextViewConstraints = TextViewConstraintStore(leading: 45.0, trailing: 60.0, top: 6.0)
+    private var isExpanded = false
+    private var explicityCollapsed = false
+    private var wasAutomatticallyExpanded = false
+    private let expandedTextViewConstraints = TextViewConstraintStore(leading: 10.0, trailing: 4.0, top: 50.0)
+    private let collapsedTextViewConstraints = TextViewConstraintStore(leading: 45.0, trailing: 60.0, top: 6.0)
     private let sendButtonDisabledTintColor = UIColor(red: 150/255, green: 156/255, blue: 161/255, alpha: 1.0)
     private let sendButtonEnabledTintColor = UIColor(red: 213/255, green: 44/255, blue: 130/255, alpha: 1.0)
     private let expandButtonCollapsedTransform = CGAffineTransform(rotationAngle: CGFloat.pi)
@@ -138,12 +136,9 @@ class ExpandableInputAccessoryView: UIView, NibLoadable {
     }
     
     @IBAction func expandButtonTapped(_ sender: UIButton) {
-        if !isExpanded {
-            expandToFullScreen()
-        } else {
-            collapseTextView()
-        }
+        toggle(expanded: !isExpanded)
     }
+    
     @IBAction func sendButtonTapped(_ sender: UIButton) {
         guard let content = textView.text, !content.isEmpty else { return }
         parentDelegate?.sendReply(with: content)
@@ -161,43 +156,30 @@ class ExpandableInputAccessoryView: UIView, NibLoadable {
         textView.replace(newRange, withText: replacementText)
     }
     
-    override var canBecomeFirstResponder: Bool { return true }
-    
-    fileprivate func expandToFullScreen(automatically: Bool = false) {
-        isExpanded = true
-        wasAutomatticallyExpanded = automatically
-        delegate?.didMoveTo(.fullScreen)
-        parentDelegate?.didExpandTextView()
-        expandButtonBottomConstraint.isActive = false
-        expandButtonTopConstraint.isActive = true
-        UIView.animate(withDuration: 0.2) {
-            self.textViewTrailingConstraint.constant = self.expandedTextViewConstraints.trailing
-            self.textViewLeadingConstraint.constant = self.expandedTextViewConstraints.leading
-            self.textViewTopConstraint.constant = self.expandedTextViewConstraints.top
-            self.dividerViewTopConstraint.constant = 44.0
-            self.headerLabel.alpha = 1
-            self.expandButton.transform = .identity
-            self.superview?.setNeedsLayout()
-            self.superview?.layoutIfNeeded()
-        }
+    override var canBecomeFirstResponder: Bool {
+        return true
     }
-    fileprivate func collapseTextView() {
-        isExpanded = false
-        if wasAutomatticallyExpanded {
+    
+    private func toggle(expanded: Bool) {
+        isExpanded = expanded
+        if !expanded && wasAutomatticallyExpanded {
             explicityCollapsed = true
         }
-        delegate?.didMoveTo(.normal)
-        parentDelegate?.didCollapseTextView()
-        expandButtonBottomConstraint.isActive = true
-        expandButtonTopConstraint.isActive = false
+        delegate?.didMoveTo(expanded ? .fullScreen : .normal)
+        if expanded {
+            parentDelegate?.didExpandTextView()
+        } else {
+            parentDelegate?.didCollapseTextView()
+        }
+        expandButtonBottomConstraint.isActive = expanded ? false : true
+        expandButtonTopConstraint.isActive = expanded ? true : false
         UIView.animate(withDuration: 0.2) {
-            self.topAnchor.constraint(equalTo: self.window!.safeAreaLayoutGuide.topAnchor).isActive = false
-            self.textViewTrailingConstraint.constant = self.collapsedTextViewConstraints.trailing
-            self.textViewLeadingConstraint.constant = self.collapsedTextViewConstraints.leading
-            self.textViewTopConstraint.constant = self.collapsedTextViewConstraints.top
-            self.dividerViewTopConstraint.constant = 0
-            self.headerLabel.alpha = 0
-            self.expandButton.transform = self.expandButtonCollapsedTransform
+            self.textViewTrailingConstraint.constant = expanded ? self.expandedTextViewConstraints.trailing : self.collapsedTextViewConstraints.trailing
+            self.textViewLeadingConstraint.constant = expanded ? self.expandedTextViewConstraints.leading : self.collapsedTextViewConstraints.leading
+            self.textViewTopConstraint.constant = expanded ? self.expandedTextViewConstraints.top : self.collapsedTextViewConstraints.top
+            self.dividerViewTopConstraint.constant = expanded ? 44.0 : 0.0
+            self.headerLabel.alpha = expanded ? 1 : 0
+            self.expandButton.transform = expanded ? .identity : self.expandButtonCollapsedTransform
             self.superview?.setNeedsLayout()
             self.superview?.layoutIfNeeded()
         }
@@ -260,10 +242,11 @@ extension ExpandableInputAccessoryView: UITextViewDelegate {
         // Re-calculate intrinsicContentSize when text changes
         placeholerLabel.isHidden = !textView.text.isEmpty
         sendButton.tintColor = textView.text.isEmpty ? sendButtonDisabledTintColor : sendButtonEnabledTintColor
-        if let fontLineHeight = self.textView.font?.lineHeight {
-            let numLines = Int(self.textView.contentSize.height / fontLineHeight)
-            if numLines > 4 && !self.isExpanded && !explicityCollapsed {
-                self.expandToFullScreen(automatically: true)
+        if let fontLineHeight = textView.font?.lineHeight {
+            let numLines = Int(textView.contentSize.height / fontLineHeight)
+            if numLines > 4 && !isExpanded && !explicityCollapsed {
+                wasAutomatticallyExpanded = true
+                toggle(expanded: true)
             } else {
                 UIView.animate(withDuration: 0.2) {
                     self.invalidateIntrinsicContentSize()
