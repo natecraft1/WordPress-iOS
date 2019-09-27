@@ -99,7 +99,7 @@
                 <outlet property="expandButtonBottomConstraint" destination="1o7-Qt-EsA" id="M2m-gS-bgE"/>
                 <outlet property="expandButtonTopConstraint" destination="ajX-xn-YWC" id="gRl-zd-ndJ"/>
                 <outlet property="headerLabel" destination="z6P-QG-lRU" id="E3X-2B-kdk"/>
-                <outlet property="placeholerLabel" destination="2VP-Vh-Erd" id="ihe-gD-NgA"/>
+                <outlet property="placeholderLabel" destination="2VP-Vh-Erd" id="ihe-gD-NgA"/>
                 <outlet property="sendButton" destination="vkS-sS-MKg" id="Hq7-FG-aMS"/>
                 <outlet property="textView" destination="wAM-wr-uzv" id="6q3-Gz-6NM"/>
                 <outlet property="textViewLeadingConstraint" destination="Tbx-3b-KVU" id="akL-LX-n88"/>

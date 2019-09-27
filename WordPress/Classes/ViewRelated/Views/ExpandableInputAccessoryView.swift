@@ -11,7 +11,7 @@ import UIKit
 
 @objc class ProgrammaticExpandableInputAccessoryView: UIView, ExpandableInputAccessoryViewDelegate {
     
-    let expandableInputAccessoryView = ExpandableInputAccessoryView.loadFromNib()
+    @objc let expandableInputAccessoryView = ExpandableInputAccessoryView.loadFromNib()
     private var topConstraint: NSLayoutConstraint?
     private var heightConstraint: NSLayoutConstraint?
 
@@ -21,7 +21,7 @@ import UIKit
     }
     
     @objc func updatePlaceholder(text: String) {
-        self.expandableInputAccessoryView.placeholerLabel.text = text
+        self.expandableInputAccessoryView.placeholderLabel.text = text
     }
     func didMoveTo(_ state: ExpandableInputAccessoryView.ExpandedState) {
         switch state {
@@ -71,6 +71,7 @@ import UIKit
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
 }
 
 protocol ExpandableInputAccessoryViewDelegate: class {
@@ -104,7 +105,7 @@ class ExpandableInputAccessoryView: UIView, NibLoadable {
     @IBOutlet weak var textViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var placeholerLabel: UILabel!
+    @IBOutlet weak var placeholderLabel: UILabel!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var expandButton: UIButton!
     @IBOutlet weak var expandButtonBottomConstraint: NSLayoutConstraint!
@@ -121,8 +122,6 @@ class ExpandableInputAccessoryView: UIView, NibLoadable {
     private var wasAutomatticallyExpanded = false
     private let expandedTextViewConstraints = TextViewConstraintStore(leading: 10.0, trailing: 4.0, top: 50.0)
     private let collapsedTextViewConstraints = TextViewConstraintStore(leading: 45.0, trailing: 60.0, top: 6.0)
-    private let sendButtonDisabledTintColor = UIColor(red: 150/255, green: 156/255, blue: 161/255, alpha: 1.0)
-    private let sendButtonEnabledTintColor = UIColor(red: 213/255, green: 44/255, blue: 130/255, alpha: 1.0)
     private let expandButtonCollapsedTransform = CGAffineTransform(rotationAngle: CGFloat.pi)
     
     override func awakeFromNib() {
@@ -188,13 +187,17 @@ class ExpandableInputAccessoryView: UIView, NibLoadable {
     private func prepareViews() {
         autoresizingMask = .flexibleHeight
         
+        headerLabel.textColor = .text
         headerLabel.alpha = 0
-        sendButton.tintColor = sendButtonDisabledTintColor
+        sendButton.tintColor = .listSmallIcon
         expandButton.transform = expandButtonCollapsedTransform
+        dividerView.backgroundColor = .divider
+        placeholderLabel.backgroundColor = .textPlaceholder
+        textView.textColor = .text
         
         if let image = expandButton.image(for: .normal) {
             expandButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
-            expandButton.tintColor = UIColor.darkGray
+            expandButton.tintColor = .listIcon
         }
     }
 
@@ -212,6 +215,7 @@ class ExpandableInputAccessoryView: UIView, NibLoadable {
             self.sendButton.isHidden = true
         }
     }
+
 }
 
 extension ExpandableInputAccessoryView: UITextViewDelegate {
@@ -240,8 +244,8 @@ extension ExpandableInputAccessoryView: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         // Re-calculate intrinsicContentSize when text changes
-        placeholerLabel.isHidden = !textView.text.isEmpty
-        sendButton.tintColor = textView.text.isEmpty ? sendButtonDisabledTintColor : sendButtonEnabledTintColor
+        placeholderLabel.isHidden = !textView.text.isEmpty
+        sendButton.tintColor = textView.text.isEmpty ? .listSmallIcon : .primaryButtonBackground
         if let fontLineHeight = textView.font?.lineHeight {
             let numLines = Int(textView.contentSize.height / fontLineHeight)
             if numLines > 4 && !isExpanded && !explicityCollapsed {
